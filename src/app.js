@@ -1,18 +1,19 @@
-import express from "express";
+import express, { json } from "express";
 import cors from "cors"
 
 const app = express();
 app.use(cors());
+app.use(json());
 
 const items = [
     {
-        id: 1, 
+        id: 1,
         name: "Maçã",
         quantity: 1,
         type: "Fruta",
-    }, 
+    },
     {
-        id: 2, 
+        id: 2,
         name: "Laranja",
         quantity: 2,
         type: "Fruta",
@@ -35,5 +36,19 @@ app.get("/items/:id", (req, res) => {
         return item.id === Number(id);
     })
     res.send(item);
+})
 
+// recebe item 
+app.post("/items", (req, res) => {
+    const item = req.body;
+
+    if(!item.name || !item.quantity || !item.type) {
+        res.status(422).send("Preencha corretamente os dados name, quantity e type.")
+        return
+    }
+
+    items.push({
+        id: items.length + 1,
+        ...item});
+    res.send("Item recebido");
 })
