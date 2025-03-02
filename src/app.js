@@ -65,7 +65,6 @@ app.post("/items", (req, res) => {
         res.status(422).send("Preencha corretamente os dados name, quantity e type.")
         return;
     }
-
     if (validNames.includes(item.name)) {
         res.status(409).send("O recurso que você está tentando inserir já foi inserido.")
         return;
